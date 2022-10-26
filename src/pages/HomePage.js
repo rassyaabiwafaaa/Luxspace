@@ -16,7 +16,7 @@ export default function HomePage() {
 
   return (
     <>
-      <Header theme="black" position="absolute" />
+      <Header theme="white" position="absolute" />
       <Hero />
       <BrowseRoom />
       <JustArrived />
