@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { UseGlobalContext } from "../helpers/hooks/useGlobalContext";
+
 export default function Header({ theme, position }) {
+  const { state } = UseGlobalContext();
+
+  const [toggleMainMenu, setToggleMainMenu] = useState(false);
+  const [isCartChange, setIsChartChange] = useState(false);
+
+  const prevCart = useRef(state?.cart || {});
+
+  useLayoutEffect(() => {
+    if (prevCart.current !== prevCart) {
+      prevCart.current = state.cart || {};
+      setIsChartChange(true);
+      setTimeout(() => {
+        setIsChartChange(false);
+      }, 550);
+    }
+  }, [state.cart]);
+
   return (
     <header className={[position, "w-full z-50 px-4"].join(" ")}>
       <div className="container mx-auto py-5">
@@ -48,7 +67,15 @@ export default function Header({ theme, position }) {
                 </button>
               </li>
               <li className="ml-6">
-                <Link to="/cart" id="header-cart" className={["flex items-center justify-center w-8 h-8", theme === "white" ? "text-black md:text-white" : "text-white md:text-black"].join(" ")}>
+                <Link
+                  to="/cart"
+                  id="header-cart"
+                  className={[
+                    "flex items-center justify-center w-8 h-8",
+                    theme === "white" ? "text-black md:text-white" : "text-white md:text-black",
+                    state.cart && Object.keys(state.cart > 0 ? "cart-field" : "", isCartChange ? "animate-bounce" : ""),
+                  ].join(" ")}
+                >
                   <svg className="fill-current" width="26" height="24" viewBox="0 0 26 24">
                     <path d="M10.8754 18.7312C9.61762 18.7312 8.59436 19.7115 8.59436 20.9164C8.59436 22.1214 9.61762 23.1017 10.8754 23.1017C12.1331 23.1017 13.1564 22.1214 13.1564 20.9164C13.1563 19.7115 12.1331 18.7312 10.8754 18.7312ZM10.8754 21.8814C10.3199 21.8814 9.86796 21.4485 9.86796 20.9163C9.86796 20.3842 10.3199 19.9512 10.8754 19.9512C11.4308 19.9512 11.8828 20.3842 11.8828 20.9163C11.8828 21.4486 11.4308 21.8814 10.8754 21.8814Z" />
                     <path d="M18.8764 18.7312C17.6186 18.7312 16.5953 19.7115 16.5953 20.9164C16.5953 22.1214 17.6186 23.1017 18.8764 23.1017C20.1342 23.1017 21.1575 22.1214 21.1575 20.9164C21.1574 19.7115 20.1341 18.7312 18.8764 18.7312ZM18.8764 21.8814C18.3209 21.8814 17.869 21.4485 17.869 20.9163C17.869 20.3842 18.3209 19.9512 18.8764 19.9512C19.4319 19.9512 19.8838 20.3842 19.8838 20.9163C19.8838 21.4486 19.4319 21.8814 18.8764 21.8814Z" />
