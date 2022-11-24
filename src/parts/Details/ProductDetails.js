@@ -2,10 +2,12 @@ import React from "react";
 
 import { UseGlobalContext } from "../../helpers/hooks/useGlobalContext";
 
+import "../../helpers/formatting/currency";
+
 export default function ProductDetails({ data }) {
   const [slider, setSlider] = React.useState(() => data?.imgUrls?.[0] || "");
 
-  const { state, dispatch } = UseGlobalContext();
+  const { dispatch } = UseGlobalContext();
 
   return (
     <section className="container mx-auto">
@@ -34,7 +36,7 @@ export default function ProductDetails({ data }) {
         </div>
         <div className="flex-1 px-4 md:p-6">
           <h2 className="text-5xl font-semibold">{data.title}</h2>
-          <p className="text-xl">IDR {data.price}</p>
+          <p className="text-xl mt-3"> {data.price.currency()}</p>
 
           <button
             className="transition-all duration-200 bg-pink-400 text-black focus:bg-black focus:text-pink-400 rounded-full px-8 py-3 mt-4 inline-flex"

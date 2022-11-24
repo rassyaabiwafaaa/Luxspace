@@ -6,13 +6,11 @@ import Hero from "../parts/HomePage/Hero";
 import BrowseRoom from "../parts/HomePage/BrowseRoom";
 import JustArrived from "../parts/HomePage/JustArrived";
 import SiteMap from "../parts/HomePage/SiteMap";
-
-import UseScrollAnchor from "../helpers/hooks/useAnchorScroll";
-import UseModalDOM from "../helpers/hooks/useModalDOM";
 import UseAsync from "../helpers/hooks/useAsync";
+import Document from "../parts/Document";
 
 export default function HomePage() {
-  const { data, run, isLoading } = UseAsync();
+  const { run } = UseAsync();
 
   useEffect(() => {
     run(
@@ -21,10 +19,9 @@ export default function HomePage() {
       })
     );
   }, [run]);
-  UseModalDOM();
 
   return (
-    <>
+    <Document>
       <Header theme="white" position="absolute" />
       <Hero />
       <BrowseRoom />
@@ -32,6 +29,6 @@ export default function HomePage() {
       <Clients />
       <SiteMap />
       <Footer />
-    </>
+    </Document>
   );
 }

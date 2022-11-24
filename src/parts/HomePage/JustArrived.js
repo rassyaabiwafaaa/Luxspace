@@ -7,6 +7,8 @@ import Carrousel from "../../components/Carrousel";
 import useAsync from "../../helpers/hooks/useAsync";
 import fetch from "../../helpers/fetch";
 
+import "../../helpers/formatting/currency";
+
 function Loading() {
   return Array(6)
     .fill()
@@ -22,7 +24,7 @@ function Loading() {
 }
 
 export default function JustArrived() {
-  const { data, error, status, run, isLoading } = useAsync();
+  const { data, error, run, isLoading } = useAsync();
 
   const refContainer = useRef(null);
 
@@ -69,7 +71,7 @@ export default function JustArrived() {
                         <img src={item.imageUrl} alt="" className="w-full h-full object-cover object-center" />
                       </div>
                       <h5 className="text-lg font-semibold mt-4">{item.title}</h5>
-                      <span className="">IDR {item.price}</span>
+                      <span className=""> {item.price.currency()}</span>
                       <Link to={`/categories/${item.idc}/products/${item.id}`} className="stretched-link">
                         {/* <!-- fake children --> */}
                       </Link>

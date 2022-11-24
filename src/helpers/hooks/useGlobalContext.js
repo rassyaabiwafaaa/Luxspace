@@ -30,6 +30,24 @@ function Reducer(state, action) {
             },
       };
 
+    case "REMOVE_FROM_CART":
+      return {
+        ...state,
+        cart: Object.keys(state.cart)
+          .filter((key) => +key !== +action.id)
+          .reduce((acc, key) => {
+            const item = state.cart[key];
+            acc[item.id] = item;
+            return acc;
+          }, {}),
+      };
+
+    case "RESET_CART":
+      return {
+        ...state,
+        cart: initialState.cart,
+      };
+
     default:
       throw new Error(`Unhandled action type ${action.type}`);
   }

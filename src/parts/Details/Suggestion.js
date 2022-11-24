@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import "../../helpers/formatting/currency";
+
 export default function Suggestion({ data }) {
   return (
     <section className="bg-gray-100 md:px-28 px-10 py-16">
@@ -19,7 +21,7 @@ export default function Suggestion({ data }) {
                   <img src={item.imageUrl} alt="" className="w-full h-full object-cover object-center" />
                 </div>
                 <h5 className="text-lg font-semibold mt-4">{item.title}</h5>
-                <span className="">IDR {item.price}</span>
+                <span className="">{item.price.currency()}</span>
                 <Link to={`/categories/${item.idc}/products/${item.id}`} className="stretched-link">
                   {/* <!-- fake children --> */}
                 </Link>

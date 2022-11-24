@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import Footer from "../parts/Footer";
 import Header from "../parts/Header";
-import Breadcrumb from "../components/Breadcrumb";
-// import BrowseRoom from "../parts/HomePage/BrowseRoom";
-// import JustArrived from "../parts/HomePage/JustArrived";
 import SiteMap from "../parts/HomePage/SiteMap";
 import ProductDetails from "../parts/Details/ProductDetails";
 import Suggestion from "../parts/Details/Suggestion";
@@ -12,6 +9,9 @@ import UseAsync from "../helpers/hooks/useAsync";
 import { useParams } from "react-router-dom";
 
 import fetch from "../helpers/fetch";
+import Document from "../parts/Document";
+
+import PageErrorMessage from "../parts/PageErrorMessage";
 
 function LoadingProductDetails() {
   return (
@@ -91,9 +91,9 @@ function LoadingSuggestion() {
 }
 
 export default function Details() {
-  const { idc, idp } = useParams();
+  const { idp } = useParams();
 
-  const { data, run, isLoading } = UseAsync();
+  const { data, run, error, isLoading, isError } = UseAsync();
 
   useEffect(() => {
     run(
@@ -101,32 +101,23 @@ export default function Details() {
         url: `/api/products/${idp}`,
       })
     );
-  }, [run]);
+  }, [run, idp]);
 
   return (
-    <>
+    <Document>
       <Header theme="black" />
-      {/* <Breadcrumb
-        List={[
-          {
-            url: "/",
-            name: "Home",
-          },
-          {
-            url: "/categories/91234",
-            name: "Office Room",
-          },
-          {
-            url: "/categories/91234/products/7888",
-            name: "Details",
-          },
-        ]}
-      /> */}
-      {isLoading ? <LoadingProductDetails /> : <ProductDetails data={data} />}
-      {isLoading ? <LoadingSuggestion /> : <Suggestion data={data?.relatedProducts || {}} />}
+
+      {isError ? (
+        <PageErrorMessage title="Product Not Found" body={error.errors.message} />
+      ) : (
+        <>
+          {isLoading ? <LoadingProductDetails /> : <ProductDetails data={data} />}
+          {isLoading ? <LoadingSuggestion /> : <Suggestion data={data?.relatedProducts || {}} />}
+        </>
+      )}
 
       <SiteMap />
       <Footer />
-    </>
+    </Document>
   );
 }
